@@ -9,7 +9,8 @@ import {
 } from '@tmo/books/data-access';
 import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'tmo-book-search',
@@ -18,6 +19,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class BookSearchComponent implements OnInit {
   books: ReadingListBook[];
+  private destroyed$: Subject<boolean> = new Subject();
 
   searchForm = this.fb.group({
     term: ''
@@ -64,9 +66,15 @@ export class BookSearchComponent implements OnInit {
 
   instantSearch() {
     this.searchForm.controls.term.valueChanges.pipe(debounceTime(500),
-    distinctUntilChanged()).subscribe(()=>{
+    distinctUntilChanged(),takeUntil(this.destroyed$)).subscribe(()=>{
       return this.store.dispatch(searchBooks({ term: this.searchTerm }));
     }
     );
   }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
+  }
+
 }
