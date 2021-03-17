@@ -4,7 +4,8 @@ import { fetch, optimisticUpdate } from '@nrwl/angular';
 import * as ReadingListActions from './reading-list.actions';
 import { HttpClient } from '@angular/common/http';
 import { ReadingListItem } from '@tmo/shared/models';
-import { map } from 'rxjs/operators';
+import { catchError, concatMap, map } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable()
 export class ReadingListEffects implements OnInitEffects {
@@ -72,6 +73,30 @@ export class ReadingListEffects implements OnInitEffects {
       })
     )
   );
+
+  finishedBook$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReadingListActions.markAsRead),
+      concatMap(({ item }) =>
+        this.http.put<ReadingListItem>(`/api/reading-list/${item.bookId}/finished`, item).pipe(
+          map((listItem) => {
+            const changedItem = {
+              id: item.bookId,
+              changes: {
+                finished: true,
+                finishedDate: listItem['finishedDate']
+              }
+            };
+          return ReadingListActions.confirmedMarkAsRead({ item: changedItem });
+          }),
+          catchError(() =>
+            of(ReadingListActions.failedUpdateToReadingList({  error: 'Unable to mark book as finished' }))
+          )
+        )
+      )
+    )
+  );
+
 
   ngrxOnInitEffects() {
     return ReadingListActions.loadReadingList();

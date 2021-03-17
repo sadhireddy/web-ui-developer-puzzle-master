@@ -8,8 +8,16 @@
       <div class="reading-list-item--details--author">
         {{ b.authors.join(',') }}
       </div>
+      <div class="item-finished-date" *ngIf="b.finished">
+        finished on: {{ b.finishedDate | date}}
+      </div>
     </div>
-    <div>
+    <div id="reading-list-actions">
+      <button mat-icon-button data-testing="mark-finish" id="check-box" [disabled]=true
+        [attr.aria-label]="'Finished ' + b.title " *ngIf="b.finished else marked">
+        <mat-icon>check_box</mat-icon>
+      </button>
+
       <button
         mat-icon-button
         color="warn"
@@ -18,6 +26,12 @@
       >
         <mat-icon>remove_circle</mat-icon>
       </button>
+      <ng-template #marked>
+        <button data-testing="marked-button" mat-flat-button [attr.aria-label]="'Mark ' + b.title + ' as finished'"
+          (click)="isFinished(b)" color="basic">
+          <mat-icon>remove_red_eye</mat-icon>
+        </button>
+      </ng-template>
     </div>
   </div>
 </ng-container>

@@ -16,7 +16,7 @@
 <ng-container *ngIf="searchTerm; else empty">
   <div class="book-grid">
     <div class="book" data-testing="book-item" *ngFor="let b of books">
-      <div class="book--title">
+      <div class="book--title" data-testing="book-title" tabindex="0">
         {{ b.title }}
       </div>
       <div class="book--content">
@@ -27,11 +27,13 @@
           <div><strong>Author:</strong> {{ b.authors.join(',') }}</div>
           <div><strong>Publisher:</strong> {{ b.publisher }}</div>
           <div>
-            <strong>Published:</strong> {{ formatDate(b.publishedDate) }}
+            <strong>Published:</strong> {{ b.publishedDate | date:'M/d/yyyy':'en-us' }}
           </div>
           <p [innerHTML]="b.description"></p>
           <div>
             <button
+             *ngIf="!b.markedAsRead else finishedButton"
+              data-testing="mark-to-read"
               mat-flat-button
               color="primary"
               (click)="addBookToReadingList(b)"
@@ -39,6 +41,13 @@
             >
               Want to Read
             </button>
+            <ng-template #finishedButton>
+              <div data-testing="finished-button">
+                <button mat-flat-button color="accent">
+                  Finished
+                </button>
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>
