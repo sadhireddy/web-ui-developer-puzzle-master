@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import {
   addToReadingList,
   clearSearch,
@@ -16,7 +16,7 @@ import { Book } from '@tmo/shared/models';
   styleUrls: ['./book-search.component.scss']
 })
 export class BookSearchComponent implements OnInit {
-  books: ReadingListBook[];
+  books$ = this.store.pipe(select(getAllBooks));
 
   searchForm = this.fb.group({
     term: ''
@@ -32,9 +32,7 @@ export class BookSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(getAllBooks).subscribe(books => {
-      this.books = books;
-    });
+    
   }
 
   formatDate(date: void | string) {
