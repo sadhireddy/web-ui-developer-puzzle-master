@@ -58,10 +58,65 @@
       {
         "enforceBuildableLibDependency": true,
         "allow": [],
-        "depConstraints": [
+        "depConstraints": [{
+            "sourceTag": "platform:client",
+            "onlyDependOnLibsWithTags": ["platform:client", "platform:all"]
+          },
           {
-            "sourceTag": "*",
-            "onlyDependOnLibsWithTags": ["*"]
+            "sourceTag": "platform:server",
+            "onlyDependOnLibsWithTags": ["platform:server", "platform:all"]
+          },
+          {
+            "sourceTag": "scope:shared",
+            "onlyDependOnLibsWithTags": ["scope:shared"]
+          },
+          {
+            "sourceTag": "scope:okreads",
+            "onlyDependOnLibsWithTags": ["scope:okreads", "scope:books", "scope:shared"]
+          },
+          {
+            "sourceTag": "scope:books",
+            "onlyDependOnLibsWithTags": ["scope:books", "scope:shared"]
+          },
+          {
+            "sourceTag": "scope:api",
+            "onlyDependOnLibsWithTags": ["scope:api","scope:shared"]
+          },
+          {
+            "sourceTag": "type:app",
+            "onlyDependOnLibsWithTags": [
+              "type:feature",
+              "type:data-access",
+              "type:util",
+              "type:model",
+              "type:styles"
+            ]
+          },
+          {
+            "sourceTag": "type:feature",
+            "onlyDependOnLibsWithTags": [
+              "type:feature",
+              "type:data-access",
+              "type:util",
+              "type:model",
+              "type:styles"
+            ]
+          },
+          {
+            "sourceTag": "type:data-access",
+            "onlyDependOnLibsWithTags": [
+              "type:data-access",
+              "type:util",
+              "type:model"
+            ]
+          },
+          {
+            "sourceTag": "type:util",
+            "onlyDependOnLibsWithTags": ["type:util", "type:model"]
+          },
+          {
+            "sourceTag": "type:model",
+            "onlyDependOnLibsWithTags": ["type:model", "type:util"]
           }
         ]
       }

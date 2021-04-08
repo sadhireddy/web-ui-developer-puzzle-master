@@ -42,12 +42,12 @@ export const confirmedRemoveFromReadingList = createAction(
   props<{ item: ReadingListItem }>()
 );
 
-export const addUndoToReadingList = createAction(
+export const undoAddtoReadingList = createAction(
   '[Reading List API] Undo add to list',
   props<{ book: Book }>()
 );
 
-export const removeUndoFromReadingList = createAction(
+export const undoRemoveFromReadingList = createAction(
   '[Reading List API] Remove from list',
   props<{ item: ReadingListItem }>()
 );

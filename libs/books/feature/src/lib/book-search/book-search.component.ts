@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   addToReadingList,
-  addUndoToReadingList,
   clearSearch,
   getAllBooks,
   ReadingListBook,
-  searchBooks
+  searchBooks,
+  undoAddtoReadingList
 } from '@tmo/books/data-access';
 import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'tmo-book-search',
@@ -47,10 +48,6 @@ export class BookSearchComponent implements OnInit {
 
   addBookToReadingList(book: Book) {
     this.store.dispatch(addToReadingList({ book }));
-    const snackbarRef = this.snackBar.open(`Added: ${book.title}.`, 'Undo', { duration: 5000 });
-    snackbarRef.onAction().pipe(take(1)).subscribe(() =>
-        this.store.dispatch(addUndoToReadingList({ book })));
-
   }
 
   searchExample() {
