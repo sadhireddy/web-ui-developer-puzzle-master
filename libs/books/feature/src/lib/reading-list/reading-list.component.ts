@@ -11,9 +11,12 @@ import { ReadingListItem } from '@tmo/shared/models';
 export class ReadingListComponent {
   readingList$ = this.store.select(getReadingList);
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store
+    ) {}
 
   removeFromReadingList(item:ReadingListItem) {
     this.store.dispatch(removeFromReadingList({ item }));
+
   }
 }

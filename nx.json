@@ -6,9 +6,9 @@
       "dependencies": "*",
       "devDependencies": "*"
     },
-    "tsconfig.json": "*",
     "tslint.json": "*",
-    "nx.json": "*"
+    "nx.json": "*",
+    "tsconfig.base.json": "*"
   },
   "tasksRunnerOptions": {
     "default": {
@@ -20,39 +20,49 @@
   },
   "projects": {
     "okreads": {
-      "tags": [],
+      "tags": ["platform:client", "scope:okreads", "type:app"],
       "implicitDependencies": ["okreads-browser", "okreads-api"]
     },
     "okreads-browser": {
-      "tags": [],
+      "tags": ["platform:client", "scope:okreads", "type:app"],
       "implicitDependencies": ["shared-styles"]
     },
     "okreads-api": {
-      "tags": []
+      "tags": ["platform:server", "scope:shared", "type:util"]
     },
     "okreads-e2e": {
-      "tags": []
+      "tags": ["platform:client", "scope:okreads", "type:app"],
+      "implicitDependencies": ["okreads-browser"]
     },
     "shared-storage": {
-      "tags": []
+      "tags": ["platform:server", "scope:shared", "type:util"]
     },
     "shared-styles": {
-      "tags": []
+      "tags": ["platform:all", "scope:shared", "type:styles"]
     },
     "shared-models": {
-      "tags": []
+      "tags": [
+        "platform:client",
+        "platform:server",
+        "scope:shared",
+        "type:model"
+      ]
     },
     "books-feature": {
-      "tags": []
+      "tags": ["platform:client", "scope:books", "type:feature"],
+      "implicitDependencies": ["books-data-access"]
     },
     "books-data-access": {
-      "tags": []
+      "tags": ["platform:client", "scope:shared", "type:data-access"]
     },
     "shared-testing": {
-      "tags": []
+      "tags": ["platform:client", "scope:shared", "type:util"]
     },
     "api-books": {
-      "tags": []
+      "tags": ["platform:server", "scope:shared", "type:util"]
     }
+  },
+  "affected": {
+    "defaultBase": "master"
   }
 }
