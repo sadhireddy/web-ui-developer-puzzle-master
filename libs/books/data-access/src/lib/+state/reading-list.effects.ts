@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { ReadingListItem } from '@tmo/shared/models';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { failedUpdateBookAsFinishedReading } from './reading-list.actions';
 
 @Injectable()
 export class ReadingListEffects implements OnInitEffects {
@@ -79,18 +80,9 @@ export class ReadingListEffects implements OnInitEffects {
       ofType(ReadingListActions.markAsRead),
       concatMap(({ item }) =>
         this.http.put<ReadingListItem>(`/api/reading-list/${item.bookId}/finished`, item).pipe(
-          map((listItem) => {
-            const changedItem = {
-              id: item.bookId,
-              changes: {
-                finished: true,
-                finishedDate: listItem['finishedDate']
-              }
-            };
-          return ReadingListActions.confirmedMarkAsRead({ item: changedItem });
-          }),
+          map(() => ReadingListActions.confirmedMarkAsRead( { item })),
           catchError(() =>
-            of(ReadingListActions.failedUpdateToReadingList({  error: 'Unable to mark book as finished' }))
+            of(ReadingListActions.failedUpdateBookAsFinishedReading({  error: 'Unable to mark book as finished' }))
           )
         )
       )

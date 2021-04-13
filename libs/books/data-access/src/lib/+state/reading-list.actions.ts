@@ -48,12 +48,12 @@ export const markAsRead = createAction(
   props<{ item: ReadingListItem }>()
 );
 
-export const failedUpdateToReadingList = createAction(
+export const failedUpdateBookAsFinishedReading = createAction(
   '[Reading List API] Failed to mark book as read',
   props<{ error: string }>()
 );
 
 export const confirmedMarkAsRead = createAction(
   '[Reading List API] Confirmed marked as read',
-  props<{ item: Update<ReadingListItem> }>()
+  props<{ item: ReadingListItem }>()
 );

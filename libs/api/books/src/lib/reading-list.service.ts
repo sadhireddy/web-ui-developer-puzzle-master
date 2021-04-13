@@ -29,15 +29,11 @@ export class ReadingListService {
     });
   }
 
-  async readBook(id: string): Promise<void> {
-    let updateItem;
+  async readBook(id: string, item: ReadingListItem): Promise<void> {
+   
     this.storage.update(list => {
-      updateItem = list.find(item => item.bookId === id);
-      updateItem = {...updateItem, finished: true, finishedDate: new Date().toISOString()}
-      const updateBookList = [...list, updateItem];
-      return updateBookList;
+      return list.map((x) => (x.bookId === id ? item : x));
     });
-    return updateItem;
   }
 
 }
