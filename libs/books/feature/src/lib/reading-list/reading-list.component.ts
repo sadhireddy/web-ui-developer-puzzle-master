@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getReadingList, removeFromReadingList, undoRemoveFromReadingList } from '@tmo/books/data-access';
+import { getReadingList, removeFromReadingList } from '@tmo/books/data-access';
 import { ReadingListItem } from '@tmo/shared/models';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'tmo-reading-list',
@@ -14,8 +12,7 @@ export class ReadingListComponent {
   readingList$ = this.store.select(getReadingList);
 
   constructor(
-    private readonly store: Store,
-    private snackbar: MatSnackBar
+    private readonly store: Store
     ) {}
 
   removeFromReadingList(item:ReadingListItem) {

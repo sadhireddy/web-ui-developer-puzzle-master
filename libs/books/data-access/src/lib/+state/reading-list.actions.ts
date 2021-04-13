@@ -48,7 +48,7 @@ export const undoAddtoReadingList = createAction(
 );
 
 export const undoRemoveFromReadingList = createAction(
-  '[Reading List API] Remove from list',
+  '[Reading List API] Undo Remove from Reading list',
   props<{ item: ReadingListItem }>()
 );
 
