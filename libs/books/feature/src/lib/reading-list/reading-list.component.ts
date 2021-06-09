@@ -14,7 +14,7 @@ export class ReadingListComponent {
 
   constructor(private readonly store: Store) {}
 
-  isFinished(item){
+  isFinished(item: ReadingListItem){
     this.store.dispatch(markAsRead({item}));
   }
 
